@@ -1,5 +1,15 @@
 #!/bin/bash
 
+if [[ "$1" == "togglelock" ]]; then
+        loadedmodules=$(qdbus org.kde.kded5 /kded loadedModules)
+        if [[ "$loadedmodules" = *kded_rotation* ]]; then
+                qdbus org.kde.kded5 /kded unloadModule kded_rotation
+        else
+                qdbus org.kde.kded5 /kded loadModule rotation
+        fi
+        exit
+fi
+
 PRIMARY_DISPLAY=$(xrandr | grep primary | awk '{print $1}')
 
 GENERIC_PROP="Coordinate Transformation Matrix"
